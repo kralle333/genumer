@@ -1,4 +1,4 @@
-module genumer
+module github.com/kralle333/genumer
 
 go 1.22.0
 

@@ -17,17 +17,25 @@ Available Styles:
 - `screamingKebabCase` THIS-IS-SCREAMING-KEBAB-CASE
 - `screamingSnakeCase` THIS_IS_SCREAMING_SNAKE_CASE
 
+## Usage
 
-# Usage
 Either use it from the command line:
+
+```
 genumer --name="MyEnum"" --values="firstValue,secondValue" --dest="cmd/"
+```
 which will generate a file called myenum.go in the cmd/ directory
 
 or use it as a go generate directive:
-//go:generate genumer --name "enumStyle" --values "camelCase,pascalCasing,screamingSnakeCase" --dest "cmd/test/" --createDir
+```
+//go:generate genumer --name "enumStyle" --values "camelCase,pascalCasing,screamingSnakeCase" --dest "cmd/test/"
+--createDir
+```
 which will generate a file called enumstyle.go in the cmd/test directory, creating the directories if they do not exist
 
-Usage:
+### Help text
+
+```
 genumer [flags]
 
 Examples:
@@ -40,6 +48,14 @@ Flags:
 -n, --name string      Name of the enum in camelCase, e.g. "myEnum"
 -p, --package string   Package of generated go enum file. If not set, the destination will be used to deduct package name
 --private          Make the generated enum private
--s, --style string     Style of the generated go enum names (options: camelCase (default), pascalCase, screamingSnakeCase) (default "camelCase")
+-s, --style string     Style of the generated go enum names: camelCase, pascalCase, upperCase, kebabCase, screamingKebabCase, snakeCase, screamingSnakeCase (default "camelCase")
 -v, --values string    Target enum values in camelCase, e.g. "firstValue,thenSecond,theVeryLastValue"
+
+```
+
+## Installation
+
+```
+go install github.com/kralle333/genumer
+```
 
