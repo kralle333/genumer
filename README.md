@@ -55,7 +55,17 @@ Flags:
 
 ## Installation
 
+### go install
 ```
 go install github.com/kralle333/genumer
 ```
 
+### homebrew
+
+```
+brew tap kralle333/genumer
+brew install genumer
+```
+
+### using releases
+install the binary of your choice from [the git releases](https://github.com/kralle333/genumer/releases)
