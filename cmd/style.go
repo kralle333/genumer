@@ -1,22 +1,21 @@
 package cmd
 
 import (
-	"log"
+	"fmt"
 	"strings"
 	"unicode"
 )
 
-func getStyleOrDefault(enumStyle string, defaultStyle enumStyle) enumStyle {
+func getStyleOrDefault(enumStyle string, defaultStyle enumStyle) (enumStyle, error) {
 	if enumStyle == "" {
-		return defaultStyle
+		return defaultStyle, nil
 	}
 	for _, e := range allEnumStyles {
 		if string(e) == enumStyle {
-			return e
+			return e, nil
 		}
 	}
-	log.Fatalf("invalid enum style %s! options: %s", enumStyle, strings.Join(getValidEnumsStylesAsStrings(), ","))
-	return defaultStyle
+	return defaultStyle, fmt.Errorf("invalid enum style: %s", enumStyle)
 }
 
 func mapStringSlices(stringSlices []string, mapFunc func(toMap string) string) []string {

@@ -17,22 +17,13 @@ type Config struct {
 	private     bool
 }
 
-func splitValuesStringOrFail(s string) []string {
+func splitValuesString(s string) ([]string, error) {
 
 	valuesSlice := strings.Split(s, ",")
 	if len(valuesSlice) == 0 || s == "" {
-		panic("no enum values found, usage: \"an,array,of,strings\"")
+		return nil, fmt.Errorf("no enum values found, usage: \"an,array,of,strings\"")
 	}
-	//log.Printf("values are valid! length: %d and values %s", len(valuesSlice), valuesSlice)
-	return valuesSlice
-}
-
-func getValidEnumsStylesAsStrings() []string {
-	enumStylesAsStrings := make([]string, len(allEnumStyles))
-	for i, style := range allEnumStyles {
-		enumStylesAsStrings[i] = string(style)
-	}
-	return enumStylesAsStrings
+	return valuesSlice, nil
 }
 
 func getPackage(destination string) string {
@@ -72,17 +63,34 @@ which will generate a file called enumstyle.go in the cmd/test directory, creati
 `,
 	Example: "genumer --name=myEnum --values=\"firstValue,secondValue\" --dest=generated/",
 	Run: func(cmd *cobra.Command, args []string) {
+
+		values, err := splitValuesString(values)
+		if err != nil {
+			cmd.PrintErrln("parsing values failed:", err)
+			return
+		}
+
+		style, err := getStyleOrDefault(style, enumStyleCamelCase)
+		if err != nil {
+			cmd.PrintErrln("parsing style failed:", err)
+			return
+		}
 		generatorConfig := Config{
 			name:        name,
-			values:      splitValuesStringOrFail(values),
+			values:      values,
 			destination: destination,
 			goPackage:   getGoPackage(goPackage, destination),
-			style:       getStyleOrDefault(style, enumStyleCamelCase),
+			style:       style,
 			createDir:   createDir,
 			private:     private,
 		}
 
-		err := CreateGoFile(generatorConfig)
+		if generatorConfig.goPackage == "" {
+			cmd.PrintErrln("could not deduce package name from destination")
+			return
+		}
+
+		err = CreateGoFile(generatorConfig)
 		if err != nil {
 			cmd.PrintErrln("generating enum failed:", err)
 		}
