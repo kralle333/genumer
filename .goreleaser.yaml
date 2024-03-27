@@ -22,7 +22,13 @@ builds:
       - linux
       - windows
       - darwin
-
+brews:
+  - repository:
+      owner: kralle333
+      name: homebrew-genumer
+    folder: Formula
+    homepage: https://github.com/kralle333/genumer
+    description: A commandline tool for generating enums in go
 archives:
   - format: tar.gz
     # this name template makes the OS and Arch compatible with the results of `uname`.
