@@ -67,7 +67,7 @@ genumer --name="MyEnum"" --values="firstValue,secondValue" --dest="cmd/"
 which will generate a file called myenum.go in the cmd/ directory
 
 or use it as a go generate directive:
-//go:generate genumer --name "enumStyle" --values "camelCase,pascalCasing,screamingSnakeCase" --dest "cmd/test/" --createDir
+go:generate genumer --name "enumStyle" --values "camelCase,pascalCasing,screamingSnakeCase" --dest "cmd/test/" --createDir
 which will generate a file called enumstyle.go in the cmd/test directory, creating the directories if they do not exist
 `,
 	Example: "genumer --name=myEnum --values=\"firstValue,secondValue\" --dest=generated/",
